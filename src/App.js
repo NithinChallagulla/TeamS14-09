@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ProjectCreation from './pages/ProjectCreation';
+import PeerReviewDashboard from './pages/PeerReviewDashboard';
+import FeedbackForm from './pages/FeedbackForm';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/create-project" element={<ProjectCreation />} />
+                <Route path="/review-dashboard" element={<PeerReviewDashboard />} />
+                <Route path="/review/:projectId" element={<FeedbackForm />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
