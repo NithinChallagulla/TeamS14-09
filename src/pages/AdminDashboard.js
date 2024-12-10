@@ -1,67 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 
 const AdminDashboard = () => {
-  const [users, setUsers] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [error, setError] = useState('');
+  // Dummy data for users
+  const users = [
+    { id: 1, name: 'harshini', email: 'harshini@klmail.com', role: 'Admin' },
+    { id: 2, name: 'Rahul', email: 'rahul@klmail.com', role: 'User' },
+    { id: 3, name: 'Priya', email: 'priya@klmail.com', role: 'User' },
+    { id: 4, name: 'Nithin', email: 'nithin@klmail.com', role: 'User' },
+  ];
 
-  // Fetch all users and projects on component mount
-  useEffect(() => {
-    fetchUsers();
-    fetchProjects();
-  }, []);
+  // Dummy data for projects
+  const projects = [
+    {
+      id: 1,
+      title: 'Feedback Management System',
+      description: 'A system to collect and analyze feedback from students.',
+      submittedBy: 'Rahul',
+    },
+    {
+      id: 2,
+      title: 'E-Learning Platform',
+      description: 'An interactive platform for online learning.',
+      submittedBy: 'Priya',
+    },
+    {
+      id: 3,
+      title: 'Event Management Tool',
+      description: 'A tool to manage events and tasks efficiently.',
+      submittedBy: 'Anjali',
+    },
+  ];
 
-  // Fetch all users
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/users');
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      setError('Failed to fetch users.');
-    }
+  // Placeholder functions for actions
+  const handleProjectApproval = (projectId, isApproved) => {
+    alert(`Project ${projectId} ${isApproved ? 'approved' : 'rejected'} successfully.`);
   };
 
-  // Fetch all projects
-  const fetchProjects = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/projects');
-      setProjects(response.data);
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-      setError('Failed to fetch projects.');
-    }
-  };
-
-  // Approve or reject a project
-  const handleProjectApproval = async (projectId, isApproved) => {
-    try {
-      await axios.put(`http://localhost:8080/api/projects/${projectId}/approval`, { isApproved });
-      alert(`Project ${isApproved ? 'approved' : 'rejected'} successfully.`);
-      fetchProjects(); // Refresh the project list after action
-    } catch (error) {
-      console.error('Error updating project approval status:', error);
-      setError('Failed to update project status.');
-    }
-  };
-
-  // Assign a project to a user for peer review
-  const assignProject = async (projectId, userId) => {
-    try {
-      await axios.post(`http://localhost:8080/api/projects/${projectId}/assign`, { userId });
-      alert('Project assigned successfully.');
-    } catch (error) {
-      console.error('Error assigning project:', error);
-      setError('Failed to assign project for peer review.');
-    }
+  const assignProject = (projectId, userId) => {
+    alert(`Project ${projectId} assigned to user ${userId} successfully.`);
   };
 
   return (
     <div>
       <h2>Admin Dashboard</h2>
-
-      {error && <p className="error">{error}</p>}
 
       {/* Users Section */}
       <div className="admin-section">
@@ -99,7 +80,7 @@ const AdminDashboard = () => {
                   Select User
                 </option>
                 {users
-                  .filter((user) => user.role === 'ROLE_USER')
+                  .filter((user) => user.role === 'User')
                   .map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.name} ({user.email})

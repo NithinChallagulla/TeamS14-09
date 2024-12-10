@@ -1,51 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
-  const [user, setUser] = useState({});
-  const [recentProjects, setRecentProjects] = useState([]);
-  const [recentReviews, setRecentReviews] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    fetchUserDetails();
-    fetchRecentProjects();
-    fetchRecentReviews();
-  }, []);
+  // Get user data from location state
+  const user = location.state || { name: 'Guest', email: 'guest@example.com', role: 'Visitor' };
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/user/details'); // Adjust endpoint as needed
-      setUser(response.data);
-    } catch (error) {
-      console.error('Error fetching user details:', error);
-    }
-  };
+  const recentProjects = [
+    {
+      id: 1,
+      title: 'Feedback Management System',
+      description: 'A system to collect and analyze student feedback.',
+      status: 'Completed',
+    },
+    {
+      id: 2,
+      title: 'E-Learning Platform',
+      description: 'An interactive platform for online learning.',
+      status: 'In Progress',
+    },
+  ];
 
-  const fetchRecentProjects = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/projects/recent');
-      setRecentProjects(response.data);
-    } catch (error) {
-      console.error('Error fetching recent projects:', error);
-    }
-  };
-
-  const fetchRecentReviews = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/reviews/recent');
-      setRecentReviews(response.data);
-    } catch (error) {
-      console.error('Error fetching recent reviews:', error);
-    }
-  };
+  const recentReviews = [
+    {
+      id: 1,
+      projectTitle: 'Feedback Management System',
+      feedback: 'Excellent design and user-friendly interface.',
+      rating: '5/5',
+    },
+    {
+      id: 2,
+      projectTitle: 'E-Learning Platform',
+      feedback: 'Great concept but needs better content.',
+      rating: '4/5',
+    },
+  ];
 
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h2>Welcome, {user.name || 'User'}</h2>
+        <h2>Welcome, {user.name}</h2>
       </header>
 
       <div className="dashboard-content">
@@ -59,11 +56,11 @@ const Dashboard = () => {
 
         {/* Quick Links with Interactive Hover Effect */}
         <div className="quick-links">
-  <h3>Quick Actions</h3>
-  <button onClick={() => navigate('/project-creation')} className="interactive-btn">Submit Project</button>
-  <button onClick={() => navigate('/peer-review')} className="interactive-btn">Peer Review</button>
-  <button onClick={() => navigate('/profile')} className="interactive-btn">View Profile</button>
-</div>
+          <h3>Quick Actions</h3>
+          <button onClick={() => navigate('/project-creation')} className="interactive-btn">Submit Project</button>
+          <button onClick={() => navigate('/peer-review')} className="interactive-btn">Peer Review</button>
+          <button onClick={() => navigate('/profile')} className="interactive-btn">View Profile</button>
+        </div>
 
         {/* Recent Projects Section */}
         <div className="recent-activities">
